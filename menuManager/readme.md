@@ -3,6 +3,7 @@ For 0.7.0alpha
 ## Features
 * Loads menus from specified .JSON files, allowing for users to easily create menus.
 * Formatting for said JSON menus is very flexible, allowing easy use.
+* Each menu's identifier is added to a lookup table, where the lookup value equals the menu filename DOT the menu name itself (ex. exampleManagedMenu.main) so as to ensure menus that 
 * Function calls within identifying menu data are allowed (including to external scripts), allowing scripters to have dynamically changing menu data.
 * onGUIAction Handler allows for one unified script to check idGui data, doing so quickly via constructing function jumps using identifying data.
 ### How to Install
@@ -13,5 +14,6 @@ For 0.7.0alpha
 5. (For scripters who wish to test) Add example.lua to server\scripts\custom\menuManager, and require it in customScripts.lua ( "custom.menuManager.example"). Also add exampleManagedMenu.json to data/custom/managedmenus/ (you will probably have to create that last folder)
 ### Creating & Loading Custom Menus
 * Check the exampleManagedMenu.json and its accompanying (commented) .txt file for examples/information on how to format your menus. Refer to step 5 of the installation instructions above if you wish to test this menu file.
+* Note that base.lua also contains some information about the script's features and how it works, as well.
 ### Known issues
 * Functions that are defined inside a menu may not work correctly. Workaround: Limit your functions to either be extremely lightweight or to act as a middleman call to your lua script where you can more easily write code without being constricted by .json formatting.
