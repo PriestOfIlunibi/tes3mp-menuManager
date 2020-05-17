@@ -14,4 +14,4 @@ For 0.7.0alpha
 ### Creating & Loading Custom Menus
 * Check the exampleManagedMenu.json and its accompanying (commented) .txt file for examples/information on how to format your menus. Refer to step 5 of the installation instructions above if you wish to test this menu file.
 ### Known issues
-* Functions that are defined inside a menu's formatting may not work correctly. Workaround: Limit your functions to either be extremely lightweight or to act as a middleman call to your lua script where you can more easily write code without being constricted by .json formatting.
+* Functions that are defined inside a menu may not work correctly. Workaround: Limit your functions to either be extremely lightweight or to act as a middleman call to your lua script where you can more easily write code without being constricted by .json formatting.
