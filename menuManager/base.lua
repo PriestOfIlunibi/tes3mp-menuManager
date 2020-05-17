@@ -2,17 +2,17 @@
 	MenuManager
 	 - by Dagoth Gares (Dagoth Gares#7777 on Discord, or join the TrueSTL Discord and ask for me there https://discord.gg/0ySoRImmzLUbKLAQ )
 	 - Written for TES3MP Version 0.7.0alpha
-	 - Build X ()
+	 - Build 1 (May 16, 2020)
 
 	How to install:
 	 1. Create a folder called 'menuManager' in server\scripts\custom, and place this script there.
-	 2. Add MenuManager = require("custom.menuManager.base") to the end of server/scripts/customScripts.lua (copy and paste if need be)
+	 2. Add menuManager = require("custom.menuManager.base") to the end of server/scripts/customScripts.lua (copy and paste if need be)
 	 3. For any menu that must be added, add the path of the file to be loaded to the 'sources' table, formatted in the same manner as the example.
 	 4. Remember to add accompanying lua scripts for each added menu, if necessary.
 	
 	Scripters:
-	 - Check features.md for all the features menuManager offers, as well as a short guide to how to use it.
-	 - Use exampleManagedMenu.lua and exampleManagedMenu.json to see how menuManager works in practice.
+	 - Check managedmenus/exampleManagedMenu.txt for a short guide on how to use menuManager and the features it offers.
+	 - Use exampleManagedMenu.lua and exampleManagedMenu.json together to see how menuManager works in practice.
 ]]
 
 local jsonInterface = require("jsonInterface")
@@ -36,10 +36,10 @@ local customGui = {}
 local mMCfg = {}
 
 mMCfg.logging = true -- Allows MenuManager to log information to your server's .log file. Generally recommended to be kept on unless a lot of menus are being added.
-mMCfg.debugging = true -- Allows MenuManager to log debug information to your server's .log file. Generally recommended to be kept off unless you need to do debugging for this script or are adding new menus through it. tl;dr turn this on when asked to or at own discretion
+mMCfg.debugging = false -- Allows MenuManager to log debug information to your server's .log file. Generally recommended to be kept off unless you need to do debugging for this script or are adding new menus through it. tl;dr turn this on when asked to or at own discretion
 
 local sources = { -- Add the locations of menu files here.
-"custom/managedmenus/exampleManagedMenu.json"
+--"custom/managedmenus/exampleManagedMenu.json"
 
 }
 
@@ -90,6 +90,7 @@ local function destinationCompiler(destinationTable)
 end
 
 local function stringCompiler(argString)
+	serverDebug("stringCompiler: Started")
 	if stringFind(argString,"^/f") then -- checks if it starts with the two characters that identify it as a function
 		argString = stringGSub(argString,"[/f]","",2) -- trim the identifier
 		serverDebug("	- Supposed to compile label/note function \"" .. argString .. "\" |as function")
@@ -105,11 +106,12 @@ local function stringCompiler(argString)
 	return compiledString
 end
 
-
-
 -- MENU INITIALIZERS --
 
 local function initStatic_MB(fileName, menuName, idGui, argLabel)
+	if lookup[idGui] ~= nil then
+		error("initStatic_MB: Lookup result for ID " .. idGui .. " already exists! Result: " .. lookup[idGui])
+	end
 	lookup[idGui] = fileName .. "." .. menuName -- concatenates the lookup result into fileName.menuName, allowing for two scripts with the same menu name to coexist (so long as they don't share the same filename)
 	if customGui[fileName] == nil then
 		customGui[fileName] = {}
@@ -127,12 +129,15 @@ local function initStatic_MB(fileName, menuName, idGui, argLabel)
 end
 
 local function initStaticDialog(fileName, menuName, idGui, argLabel, argNote, argDestinations, argHidden)
+	if lookup[idGui] ~= nil then
+		error("initStaticDialog: Lookup result for ID " .. idGui .. " already exists! Result: " .. lookup[idGui])
+	end
 	lookup[idGui] = fileName .. "." .. menuName
 	if customGui[fileName] == nil then
 		customGui[fileName] = {}
 	end
 	if customGui[fileName][menuName] ~= nil then
-		error("initStatic_MB: Tried to load a Dialog with name " .. menuName .. ", but it was already there!")
+		error("initStaticDialog: Tried to load a Dialog with name " .. menuName .. ", but it was already there!")
 		return false
 	end
 	customGui[fileName][menuName] = {}
@@ -151,12 +156,15 @@ local function initStaticDialog(fileName, menuName, idGui, argLabel, argNote, ar
 end
 
 local function initStaticCMBMenu(fileName, menuName, idGui, argLabel, argButtons, argDestinations)
+	if lookup[idGui] ~= nil then
+		error("initStaticCMBMenu: Lookup result for ID " .. idGui .. " already exists! Result: " .. lookup[idGui])
+	end
 	lookup[idGui] = fileName .. "." .. menuName
 	if customGui[fileName] == nil then
 		customGui[fileName] = {}
 	end
 	if customGui[fileName][menuName] ~= nil then
-		error("initStatic_MB: Tried to load a CustomMessageBox with name " .. menuName .. ", but it was already there!")
+		error("initStaticCMBMenu: Tried to load a CustomMessageBox with name " .. menuName .. ", but it was already there!")
 		return false
 	end
 	customGui[fileName][menuName] = {}
@@ -190,12 +198,15 @@ local function initStaticCMBMenu(fileName, menuName, idGui, argLabel, argButtons
 end
 
 local function initStaticLBMenu(fileName, menuName, idGui, argLabel, argDataSource, argDestinations)
+	if lookup[idGui] ~= nil then
+		error("initStaticLBMenu: Lookup result for ID " .. idGui .. " already exists! Result: " .. lookup[idGui])
+	end
 	lookup[idGui] = fileName .. "." .. menuName
 	if customGui[fileName] == nil then
 		customGui[fileName] = {}
 	end
 	if customGui[fileName][menuName] ~= nil then
-		error("initStatic_MB: Tried to load a CustomMessageBox with name " .. menuName .. ", but it was already there!")
+		error("initStaticLBMenu: Tried to load a CustomMessageBox with name " .. menuName .. ", but it was already there!")
 		return false
 	end
 	customGui[fileName][menuName] = {}
@@ -223,7 +234,7 @@ local loadMenus = function()
 		if menuFile == nil then
 			error("Source " .. source .. " could not be loaded! Check formatting.")
 		else
-			serverDebug("loadMenus: Successfully loaded menu file " .. fileName)
+			serverDebug("loadMenus: Successfully loaded file " .. fileName)
 		end
 		for menuName, menu in pairs(menuFile) do
 			loadedMenu = menu
@@ -239,7 +250,7 @@ local loadMenus = function()
 			elseif menuType == "ListBox" then
 				initStaticLBMenu(fileName,menuName,loadedMenu.idGui,loadedMenu.label,loadedMenu.dataSource,loadedMenu.destinations)
 			else
-				serverWarn("loadMenus: INVALID MENU DATA IN " .. source)
+				error("INVALID MENU TYPE IN " .. source .. " MENU " .. menuName)
 			end
 			menuNumber = menuNumber + 1
 		end
@@ -279,7 +290,7 @@ local function grabDynamicResults(pid, menu)
 		if type(menu.label) == "function" then
 			label = menu.label(pid) -- call it
 		else
-			label = menu.label
+			label = menu.label -- just define it normally
 		end
 	elseif menu.menuType == "Dialog" then
 		if type(menu.label) == "function" then
@@ -323,8 +334,7 @@ function menuManager.showMenu(pid, idGui)
 		serverDebug("showMenu: Showing ListBox " ..  menuName)
 		return tes3mp.ListBox(pid, idGui, labelResult, lookupResult.dataSource())
 	else
-		serverError("showMenu: Lookup result for " .. lookupResult .. " exists, but no type is stated!") -- You should never get this message unless you have edited this script. Menu types are determined when the menu is first loaded.
-		return false
+		error("Lookup result for " .. lookupResult .. " exists, but no type is stated!") -- You should never get this message unless you have edited this script. Menu types are determined when the menu is first loaded.
 	end
 end
 

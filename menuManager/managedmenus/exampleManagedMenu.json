@@ -2,7 +2,7 @@
   "main":{
 	"menuType":"CustomMessageBox",
 	"idGui":779000,
-	"label":"This is the 'main' menu (aka example CustomMessageBox one).\nNote that in the file, its buttons are made up of an unenumerated array.",
+	"label":"This is the 'main' menu (aka example CustomMessageBox one).\nNote that in the file, its buttons are made up of a keyless array.",
 	"buttons":[
 	  "Run testFunction case 0",
 	  "Show example CustomMessageBox two",
@@ -37,7 +37,7 @@
 	  "-1":"local pid = ... return menuManager.showMenu(pid, 779001)",
 	  "0":"local pid = ... return menuManager.showMenu(pid, 779000)",
 	  "1":"local pid = ... return exampleManagedMenu.testFunction(pid, 1, 779001)",
-	  "any":"local pid = ... return menuManager.showMenu(pid, 779001)"
+	  "any":"local pid, data = ... return menuManager.showMenu(pid, 779001)"
 	}
   },
   "exampleCustomMessageBoxThree":{
@@ -70,6 +70,13 @@
 	"label":"This is just an InputDialog.",
 	"note":"/f return \"The only fancy thing about it is that this note is a function instead of a regular string.\"",
 	"destinations":{
+	  "0":"local pid = ... return menuManager.showMenu(pid, 779000)",
+	  "1":"local pid = ... return menuManager.showMenu(pid, 779001)",
+	  "2":"local pid = ... return menuManager.showMenu(pid, 779002)",
+	  "3":"local pid = ... return menuManager.showMenu(pid, 779003)",
+	  "4":"local pid = ... return menuManager.showMenu(pid, 779004)",
+	  "5":"local pid = ... return menuManager.showMenu(pid, 779005)",
+	  "6":"local pid = ... return menuManager.showMenu(pid, 779006)",
 	  "any":"local pid = ... return menuManager.showMenu(pid, 779000)"
 	}
   },
@@ -77,7 +84,7 @@
     "menuType":"Dialog",
 	"idGui":779006,
 	"hidden":true,
-	"label":"This is just a PasswordDialog. It is the same as an InputDialog, with the exception that you cannot see what has been typed into the dialog.",
+	"label":"This is just a PasswordDialog.",
 	"note":"/sNote that this note has no whitespace between its /s and the string itself, but will still work all the same.",
 	"destinations":{
 	  "any":"local pid = ... return menuManager.showMenu(pid, 779000)"
