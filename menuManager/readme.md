@@ -3,7 +3,7 @@ For 0.7.0alpha
 ## Features
 * Loads menus from specified .JSON files, allowing for users to easily create menus.
 * Formatting for said JSON menus is very flexible, allowing easy use.
-* Each menu's identifier is added to a lookup table, where the lookup value equals the menu filename DOT the menu name itself (ex. exampleManagedMenu.main) so as to ensure menus that 
+* Each menu's identifier is added to a lookup table, where the lookup value equals the menu filename DOT the menu name itself (ex. exampleManagedMenu.main) so as to ensure menus that share the same name do not override eachother. Two menus that share the same identifier will be called out during the initialization process, as well.
 * Function calls within identifying menu data are allowed (including to external scripts), allowing scripters to have dynamically changing menu data.
 * onGUIAction Handler allows for one unified script to check idGui data, doing so quickly via constructing function jumps using identifying data.
 ### How to Install
