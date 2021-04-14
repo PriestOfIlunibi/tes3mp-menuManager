@@ -1,0 +1,93 @@
+{
+  "main":{
+	"menuType":"CustomMessageBox",
+	"idGui":779000,
+	"label":"This is the 'main' menu (aka example CustomMessageBox one).\nNote that in the file, its buttons are made up of a keyless array.",
+	"buttons":[
+	  "Run testFunction case 0",
+	  "Show example CustomMessageBox two",
+	  "Show example CustomMessageBox three",
+	  "Show example ListBox",
+	  "Show example _MessageBox",
+	  "Show example InputDialog",
+	  "Show example PasswordDialog",
+	  "Exit menu"
+	],
+	"destinations":{
+	  "-1":"local pid = ... return menuManager.showMenu(pid, 779000)",
+	  "0":"local pid = ... return exampleManagedMenu.testFunction(pid, 0, 779000)",
+	  "1":"local pid = ... return menuManager.showMenu(pid, 779001)",
+	  "2":"local pid = ... return menuManager.showMenu(pid, 779002)",
+	  "3":"local pid = ... return menuManager.showMenu(pid, 779003)",
+	  "4":"local pid = ... return menuManager.showMenu(pid, 779004)",
+	  "5":"local pid = ... return menuManager.showMenu(pid, 779005)",
+	  "6":"local pid = ... return menuManager.showMenu(pid, 779006)",
+	  "7":"return"
+	}
+  },
+  "exampleCustomMessageBoxTwo":{
+    "menuType":"CustomMessageBox",
+	"idGui":779001,
+	"label":"/s   This is example menu two.\nNote that its buttons are made up of an enumerated array.\nTo show that excess whitespace is properly removed, there is five characters of whitespace after this message, and three after the starting /s.     ",
+	"buttons":{
+	  "0":"Go back to main menu",
+	  "1":"Run testFunction case 1"
+	},
+	"destinations":{
+	  "-1":"local pid = ... return menuManager.showMenu(pid, 779001)",
+	  "0":"local pid = ... return menuManager.showMenu(pid, 779000)",
+	  "1":"local pid = ... return exampleManagedMenu.testFunction(pid, 1, 779001)",
+	  "any":"local pid, data = ... return menuManager.showMenu(pid, 779001)"
+	}
+  },
+  "exampleCustomMessageBoxThree":{
+    "menuType":"CustomMessageBox",
+	"idGui":779002,
+	"label":"/f return exampleManagedMenu.CustomMessageBoxLabel()",
+	"buttons":"Go back to main menu;Run testFunction case 2",
+	"destinations":{
+	  "0":"local pid = ... return menuManager.showMenu(pid, 779000)",
+	  "1":"local pid = ... return exampleManagedMenu.testFunction(pid, 2, 779002)"
+	}
+  },
+  "exampleListBox":{
+    "menuType":"ListBox",
+	"idGui":779003,
+	"label":"/f return exampleManagedMenu.playerListLabel()",
+	"dataSource":"return exampleManagedMenu.playerList()",
+	"destinations":{
+	  "any":"local pid = ... return menuManager.showMenu(pid, 779000)"
+	}
+  },
+  "example_MessageBox":{
+    "menuType":"_MessageBox",
+	"idGui":779004,
+	"label":"This is just a _MessageBox."
+  },
+  "exampleInputDialog":{
+    "menuType":"Dialog",
+	"idGui":779005,
+	"label":"This is just an InputDialog.",
+	"note":"/f return \"The only fancy thing about it is that this note is a function instead of a regular string.\"",
+	"destinations":{
+	  "0":"local pid = ... return menuManager.showMenu(pid, 779000)",
+	  "1":"local pid = ... return menuManager.showMenu(pid, 779001)",
+	  "2":"local pid = ... return menuManager.showMenu(pid, 779002)",
+	  "3":"local pid = ... return menuManager.showMenu(pid, 779003)",
+	  "4":"local pid = ... return menuManager.showMenu(pid, 779004)",
+	  "5":"local pid = ... return menuManager.showMenu(pid, 779005)",
+	  "6":"local pid = ... return menuManager.showMenu(pid, 779006)",
+	  "any":"local pid = ... return menuManager.showMenu(pid, 779000)"
+	}
+  },
+  "examplePasswordDialog":{
+    "menuType":"Dialog",
+	"idGui":779006,
+	"hidden":true,
+	"label":"This is just a PasswordDialog.",
+	"note":"/sNote that this note has no whitespace between its /s and the string itself, but will still work all the same.",
+	"destinations":{
+	  "any":"local pid = ... return menuManager.showMenu(pid, 779000)"
+	}
+  }
+}
