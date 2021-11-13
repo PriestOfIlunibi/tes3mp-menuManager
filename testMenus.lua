@@ -133,6 +133,7 @@ local menus = {
 }
 
 local function createMenus() -- Done at PostInit to ensure menuManager is ready
+    -- Those of you who are particularly clever can spot an optimization for how I do this; i've chosen to omit it from this example as a learning exercise.
     menuManager.create.CustomList(779000, menus[779000])
     menuManager.create.ListBox(779003, menus[779003])
     menuManager.create.CustomList(779001, menus[779001])
