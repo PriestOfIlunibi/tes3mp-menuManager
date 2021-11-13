@@ -11,6 +11,6 @@ For 0.7.0alpha
 ### Creating Menus
 1. Use menuManager.create.\[menuType](\<your chosen GUI ID>, \<your menu definition>) in your script to create a new menu of the given type.
 2. You may then access your menu's data or have menuManager display it by calling menuManager.menu\[\<your chosen GUI ID>]:show(pid).
-         - If the identifier you chose was already in use, create() will return false and ignore the new menu request.
+         - If the identifier you chose was already in use, create() will return false and ignore the new menu request.<br>
          - By default, the only requirement for showing a menu to a player is that said player must exist. Add a check to ensure the player is logged in through the requirements table.
 * Check menuManager.lua and testMenus.lua for examples/information on how to format your menus. Refer to step 3 of the installation instructions above if you wish to see testMenus.lua in action.
